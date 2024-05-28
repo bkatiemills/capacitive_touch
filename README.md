@@ -14,3 +14,5 @@ For this circuit, you'll need:
  - two double-sided alligator clips
 
 Set up your circuit as follows:
+
+![basic captouch circuir](basic-setup_bb.svg)
