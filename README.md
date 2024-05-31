@@ -14,7 +14,7 @@ For this circuit, you'll need:
  - a ring of 16 neopixels (this is just for an example output; you can hook anything you want up to your capacitive touch sensing circuit).
  - a bunch of jumper wires
  - two double-sided alligator clips
- - 0.1 pitch male-male header pins if they aren't already
+ - 0.1 pitch male-male header pins if they aren't already soldered to your teensy
  - a USB cable with the right connections to connect your teensy to your laptop
 
 ### Prep
@@ -42,10 +42,18 @@ To control the details of how our microcontroller interprets capacitive touch si
 
 5. Next, plug your microcontroller into your laptop with a USB cable. In the Arduino IDE, navigate *Tools -> Board -> Teensy (for Arduino IDE 2.0.4 or later) -> Teensy 2.0*
 6. Also in the Arduino IDE, click on *Tools -> Port*, and select the port under *teensy ports*; there should only be one, and it should be labeled (Teensy 2.0).
-7. At this point, your microcontroller is connected to your computer, and your Arduino IDE knows how to compile code in a way that it will understand. Copy the contents of [this tbd file] to the editor on the right hand side of the Arduino IDE, and click the rightward-pointing arrow near the top left to compile the code and send it to your microcontroller.
+7. At this point, your microcontroller is connected to your computer, and your Arduino IDE knows how to compile code in a way that the microcontroller will understand. Copy the contents of [this tbd file] to the editor on the right hand side of the Arduino IDE, and click the rightward-pointing arrow near the top left to compile the code and send it to your microcontroller.
 8. Finally, in the Arduino IDE, navigate *Tools -> Serial Monitor*. The serial monitor is where you can see your microcontroller sending messages back to your laptop; we'll use this feedback to understand the behavior of our capacitive touch sensor in what follows.
 
-## Understanding capacitive touch sensor behavior
+## Interpreting capacitive touch sensor signals
+
+Have a look at the serial monitor output you connected to above. After the automatic calibration step completes, you should see three readings, labeled 'reading', 'mean' and 'sd' (for standard deviation). The first column is the raw reading the teensy is making that is proportional to how long it takes your RC circuit to discharge a small charge; as you can see, even just sitting on the table, it's quite _noisy_ - it jumps around all on its own, due to ambiant conditions in the room. We need a way to tell the difference between this number changing due to something interesting happening (like you touching the sensor), versus this number changing due to noise alone.
+
+If you just watch the reading column for a few seconds, you'll see that it appears random, but still sticks to a neighborhood of values. A good first guess for something like this is that those random readings might be coming from a _bell curve_: a random distribution characterized by an average value, and a typical width. The average is the value the random numbers tend to stick close to; the width, or _standard deviation_, is how far away you can expect typical random fluctuations to get from the average.
+
+[more explanation needed, but can this be more fun?]
+
+
 
 [practical discussion of how we're autodetecting background, separating signal].
 
