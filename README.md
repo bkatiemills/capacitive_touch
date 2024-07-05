@@ -16,10 +16,11 @@ For this circuit, you'll need:
  - two double-sided alligator clips
  - 0.1 pitch male-male header pins if they aren't already soldered to your teensy
  - a USB cable with the right connections to connect your teensy to your laptop
+ - [optional] a battery pack to run everything for projects not meant to be plugged into a wall outlet.
 
 ### Prep
 
-Solder your header pins to your teensy, and some stripped leads to your neopixel ring. Your instructor might have already done this for you!
+Solder your header pins to your teensy, and some stripped leads to your neopixel ring. Your instructor might have already done this for you.
 
 ### Circuit construction
 
@@ -27,7 +28,11 @@ Set up your circuit as follows:
 
 ![basic captouch circuit](basic-setup_bb.svg)
 
-> **How it works:** the resistor and capacitive sensor you've plugged in above form an _RC circuit_. When a voltage is applied to this circuit (in this case from the F0 pin), a charge builds up on the capacitor. When this voltage is removed, the charge discharges (in this case to pin F4); the amount of time it takes for this discharge to proceed is proportional to the product of the resistance and capacitance of the circuit - the more capacitance, the longer the discharge time. The software library we're using will apply small, rapid charges to the capacitor and measure the time it takes for them to discharge. When a grounding plane (such as your hand) gets close to the sensor, its capacitance increases, thus increasing the time it takes for the capacitor to discharge.
+Once everything is hooked up, touch your textile capacitor. If everything is working correctly, your LED ring should turn on and off as you touch the textile, thanks to a simple program pre-loaded onto your microcontroller.
+
+> **How does this work?** The circuit you built creates an *RC circuit* with the textile serving as the capacitor, which will be charged and discharged by the microcontroller. The key property of an RC circuit is that the time it takes to charge and discharge the capacitor is proportional to the product of the capacitance (C) and the resistance (R) in the circuit. The resistor is fixed; but if the capacitance changes, the time to charge and discharge will change. The software we'll use detects that change, and lets us control whatever other electronics we like based on that signal.
+>
+> But what's chaning the capacitance of the textile in the first place? Touching it, or even getting near it, changes the capacitance to a degree we can detect. Your body both adds dielectric to the existing capacitor formed by the textile, and acts itself as an additional capacitor in parallel in the circuit; both effects serve to increase the capacitance of the circuit, slowing down the charge and discharge time of the RC combination.
 
 ### Software setup
 
@@ -47,16 +52,47 @@ To control the details of how our microcontroller interprets capacitive touch si
 
 ## Interpreting capacitive touch sensor signals
 
-Have a look at the serial monitor output you connected to above. After the automatic calibration step completes, you should see three readings, labeled 'reading', 'mean' and 'sd' (for standard deviation). The first column is the raw reading the teensy is making that is proportional to how long it takes your RC circuit to discharge a small charge; as you can see, even just sitting on the table, it's quite _noisy_ - it jumps around all on its own, due to ambiant conditions in the room. We need a way to tell the difference between this number changing due to something interesting happening (like you touching the sensor), versus this number changing due to noise alone.
+Have a look at the serial monitor output you connected to above. After the automatic calibration step completes, you should see three readings, labeled 'reading', 'average' and 'deviation'. The first column is the raw reading the teensy is making that is proportional to how long it takes your RC circuit to charge and discharge; as you can see, even just sitting on the table, it's quite _noisy_ - it jumps around all on its own, due to ambiant conditions in the room. We need a way to tell the difference between this number changing due to something interesting happening (like you touching the sensor), versus this number changing due to noise alone.
 
 If you just watch the reading column for a few seconds, you'll see that it appears random, but still sticks to a neighborhood of values. A good first guess for something like this is that those random readings might be coming from a _bell curve_: a random distribution characterized by an average value, and a typical width. The average is the value the random numbers tend to stick close to; the width, or _standard deviation_, is how far away you can expect typical random fluctuations to get from the average.
 
-[more explanation needed, but can this be more fun?]
+TBD diagram
+Measurements proportional to the time your RC circuit takes to charge and discharge might look a little like this. When you actually touch your capacitor, you'll get readings way out in the right-hand tail.
 
+When using a measurement that looks like this to differentiate signal from noise, we often think about the *number of deviations away from the average* a given reading is. A single deviation away from the average isn't particularly noteworthy; that might just be a fluke in the noise. The more multiples of the deviation we are away from the average, the more confident we can be that something noteworthy - like you touching the textile - is happening.
 
+In the demo program we loaded onto your teensy, we set the threshold to be a whopping 20 deviations away from the mean - the odds of this happening by chance are basically zero, and it requires clear contact between your hand and the textile to trigger. Capacitive touch sensors can also work when you just get close to the sensor, too - but the measurement will be much weaker in this case. Make your LEDs turn on and off when you just get near your textile by doing the following:
 
-[practical discussion of how we're autodetecting background, separating signal].
+1. Copy [this file](TBD) into your IDE. This contains all the code we'll be using for all our different effects in this class.
+2. Find the line that says `int sdcutoff = 20;`, and change the 20 to something smaller, like 3 or 5; this is the number of deviations away from the average a reading has to be before you consider it 'real'.
+3. Click the rightward pointing arrow near the top left of the IDE; this compiles your code and sends it to your microcontroller. Wait a few seconds for this to complete, and see if you can turn the LEDs on and off by holding your hand over the textile capacitor.
 
 ## Programming different LED behaviors
 
-[walk through all the different presets]
+So far, we've only really used one of the effects pre-programmed onto your microcontroller: simply turning your LEDs on and off. There are several more you can switch between; try each of the different modes by commenting and uncommenting the line in the code that selects it; for example, change this:
+
+```
+    // part 1: tap to state change
+    // 1a. on / off
+    lightup(int((activations%2)==1), 3,0,12);
+    // 1b. state cycle
+    //statecycle(activations);
+```
+
+to this:
+
+```
+    // part 1: tap to state change
+    // 1a. on / off
+    //lightup(int((activations%2)==1), 3,0,12);
+    // 1b. state cycle
+    statecycle(activations);
+```
+
+to get to the second effect: cycling through preset states (remember to hit the -> button in your IDE to send your code to your microcontroller). When working correctly, this example will change the colors of the ring every time you activate the capacitive sensor, cycling through seven presets.
+
+Try the 'charge / discharge' and 'push to talk' examples similarly. Play with the value of `sdcutoff` to change how sensitive your capacitive textile is.
+
+## Leaving the computer behind
+
+So far, everything we've done has relied on being plugged into your computer
