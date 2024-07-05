@@ -21530,4 +21530,24 @@
        x="302.90079"
        y="37.311775"
        id="tspan21742">captouch textile</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:18px;line-height:1.25;font-family:sans-serif;stroke-width:0.749999"
+     x="10.567414"
+     y="111.02935"
+     id="text74870"><tspan
+       sodipodi:role="line"
+       id="tspan74868"
+       style="font-size:18px;stroke-width:0.749999"
+       x="10.567414"
+       y="111.02935">USB to </tspan><tspan
+       sodipodi:role="line"
+       style="font-size:18px;stroke-width:0.749999"
+       x="10.567414"
+       y="133.52936"
+       id="tspan75026">computer</tspan></text>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:7.91999137;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="m 78.666401,108.02935 c 9.28853,0.0175 18.690723,-1.39612 27.865609,0.0526 10.7136,1.69167 9.03242,7.46891 16.21139,9.26366 0.95421,0.23855 11.50803,-0.10223 11.57956,0 0.87923,1.25633 1.39629,2.73056 2.09444,4.09585"
+     id="path75843" />
 </svg>
