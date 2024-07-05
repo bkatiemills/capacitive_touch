@@ -95,4 +95,16 @@ Try the 'charge / discharge' and 'push to talk' examples similarly. Play with th
 
 ## Leaving the computer behind
 
-So far, everything we've done has relied on being plugged into your computer
+So far, everything we've done has relied on being plugged into your computer - but what if we want capacitive textiles in a project not tethered to the computer, like in an interactive art piece, installation or costume? We can run the whole setup on a battery, but there's some additional tricks that might come in handy.
+
+1. Take your battery holder and insert the provided batteries; there's an indicator inside the battey holder showing which way around to put the batteries.
+2. Get a digital multimeter and use it to determine which of the wires coming out of the battery holder is the positive lead; your instructor will help you. Do not skip this step and do not guess if you're unsure; these *must* be the right way around before plugging in your microcontroller!
+3. Insert the negative lead (white wire in the diagram) into the same row in the breadboard that has the white wire from the LEDs and microcontroller. 
+4. Insert the positive lead (red wire in the diagram) into the same row in the breadboard that has the red wire from the LEDs and microcontroller.
+5. Finally, attach a grounding wire to the ground rail on your breadboard (the row with all the ground wires, white in the diagram).
+
+When complete, your circuit should look like this:
+
+![captouch circuit with no computer](no-computer_bb.svg)
+
+Try touching your capacitive textile - it might not work so well anymore! When you had your circuit plugged into the computer, it was using your computer's electrical ground; without this, the signals coming from the touch sensor and to the LED ring may be unstable and difficult to interpret due to the 'floating ground'. This is what the extra ground wire is for; try gripping it firmly in one hand while touching your sensor with the other, and it should behave much more stably (if you're still having trouble, hit the little reset button on the microcontroller and wait a moment for it to reboot and recalibrate). In something like a costume, this extra ground would be a 'body wire', typically discreetly taped to the skin to provide a stable ground (your body) for the electronics.
