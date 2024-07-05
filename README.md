@@ -30,8 +30,6 @@ Set up your circuit as follows:
 
 Once everything is hooked up, touch your textile capacitor. If everything is working correctly, your LED ring should turn on and off as you touch the textile, thanks to a simple program pre-loaded onto your microcontroller.
 
-![demo](https://github.com/bkatiemills/capacitive_touch/blob/main/demo.gif)
-
 > **How does this work?** The circuit you built creates an *RC circuit* with the textile serving as the capacitor, which will be charged and discharged by the microcontroller. The key property of an RC circuit is that the time it takes to charge and discharge the capacitor is proportional to the product of the capacitance (C) and the resistance (R) in the circuit. The resistor is fixed; but if the capacitance changes, the time to charge and discharge will change. The software we'll use detects that change, and lets us control whatever other electronics we like based on that signal.
 >
 > But what's chaning the capacitance of the textile in the first place? Touching it, or even getting near it, changes the capacitance to a degree we can detect. Your body both adds dielectric to the existing capacitor formed by the textile, and acts itself as an additional capacitor in parallel in the circuit; both effects serve to increase the capacitance of the circuit, slowing down the charge and discharge time of the RC combination.
