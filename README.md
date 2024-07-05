@@ -108,3 +108,13 @@ When complete, your circuit should look like this:
 ![captouch circuit with no computer](no-computer_bb.svg)
 
 Try touching your capacitive textile - it might not work so well anymore! When you had your circuit plugged into the computer, it was using your computer's electrical ground; without this, the signals coming from the touch sensor and to the LED ring may be unstable and difficult to interpret due to the 'floating ground'. This is what the extra ground wire is for; try gripping it firmly in one hand while touching your sensor with the other, and it should behave much more stably (if you're still having trouble, hit the little reset button on the microcontroller and wait a moment for it to reboot and recalibrate). In something like a costume, this extra ground would be a 'body wire', typically discreetly taped to the skin to provide a stable ground (your body) for the electronics.
+
+## Challenge exercise: make your own interactions and effects
+
+At this point, you've tried all the basics: you've set up your circuit, seen a few basic effects it can generate, and ran it off a battery rather than from your computer. Finally, remove the battery pack, plug back into your computer with the USB cable, and go back to the code in your IDE. Try to see if you can make these modifications; work together with your classmates, and ask your instructor for tips if you get stuck:
+
+1. Change the color of the LEDs in the simple on/off example.
+2. Add another preset to the cycle in the state cycle example.
+3. Make the 'discharge' step slower than the 'chargeup' step in the charge / discharge example
+
+If you finish these, try coming up with your own interactions and seeing if you can program them; again, this is a challenging problem! Work together and ask your instructors for support.
