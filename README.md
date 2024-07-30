@@ -50,26 +50,13 @@ To control the details of how our microcontroller interprets capacitive touch si
 7. At this point, your microcontroller is connected to your computer, and your Arduino IDE knows how to compile code in a way that the microcontroller will understand. Copy the contents of [this arduino code file](teensy2.ino) to the editor on the right hand side of the Arduino IDE, and click the rightward-pointing arrow near the top left to compile the code and send it to your microcontroller.
 8. Finally, in the Arduino IDE, navigate *Tools -> Serial Monitor*. The serial monitor is where you can see your microcontroller sending messages back to your laptop; we'll use this feedback to understand the behavior of our capacitive touch sensor in what follows.
 
-## Interpreting capacitive touch sensor signals
-
-Have a look at the serial monitor output you connected to above. After the automatic calibration step completes, you should see three readings, labeled 'reading', 'average' and 'deviation'. The first column is the raw reading the teensy is making that is proportional to how long it takes your RC circuit to charge and discharge; as you can see, even just sitting on the table, it's quite _noisy_ - it jumps around all on its own, due to ambiant conditions in the room. We need a way to tell the difference between this number changing due to something interesting happening (like you touching the sensor), versus this number changing due to noise alone.
-
-If you just watch the reading column for a few seconds, you'll see that it appears random, but still sticks to a neighborhood of values. A good first guess for something like this is that those random readings might be coming from a _bell curve_: a random distribution characterized by an average value, and a typical width. The average is the value the random numbers tend to stick close to; the width, or _standard deviation_, is how far away you can expect typical random fluctuations to get from the average.
-
-TBD diagram
-Measurements proportional to the time your RC circuit takes to charge and discharge might look a little like this. When you actually touch your capacitor, you'll get readings way out in the right-hand tail.
-
-When using a measurement that looks like this to differentiate signal from noise, we often think about the *number of deviations away from the average* a given reading is. A single deviation away from the average isn't particularly noteworthy; that might just be a fluke in the noise. The more multiples of the deviation we are away from the average, the more confident we can be that something noteworthy - like you touching the textile - is happening.
-
-In the demo program we loaded onto your teensy, we set the threshold to be a whopping 20 deviations away from the mean - the odds of this happening by chance are basically zero, and it requires clear contact between your hand and the textile to trigger. Capacitive touch sensors can also work when you just get close to the sensor, too - but the measurement will be much weaker in this case. Make your LEDs turn on and off when you just get near your textile by doing the following:
-
-1. Copy [this file](TBD) into your IDE. This contains all the code we'll be using for all our different effects in this class.
-2. Find the line that says `int sdcutoff = 20;`, and change the 20 to something smaller, like 3 or 5; this is the number of deviations away from the average a reading has to be before you consider it 'real'.
-3. Click the rightward pointing arrow near the top left of the IDE; this compiles your code and sends it to your microcontroller. Wait a few seconds for this to complete, and see if you can turn the LEDs on and off by holding your hand over the textile capacitor.
-
 ## Programming different LED behaviors
 
-So far, we've only really used one of the effects pre-programmed onto your microcontroller: simply turning your LEDs on and off. There are several more you can switch between; try each of the different modes by commenting and uncommenting the line in the code that selects it; for example, change this:
+So far, we've only really used one of the effects pre-programmed onto your microcontroller: simply turning your LEDs on and off. There are several more you can switch between, in the following. Try each of them, and ask your instructor if you're curious how each of them work in more detail:
+
+### Cycling through states
+
+In your IDE, comment out example 1a (which was the default example you've already seen), and uncomment example 1b, which is an example of switching through preset states every time you touch the sensor; change this:
 
 ```
     // part 1: tap to state change
@@ -89,9 +76,22 @@ to this:
     statecycle(activations);
 ```
 
-to get to the second effect: cycling through preset states (remember to hit the -> button in your IDE to send your code to your microcontroller). When working correctly, this example will change the colors of the ring every time you activate the capacitive sensor, cycling through seven presets.
+remember to hit the -> button in your IDE to send your code to your microcontroller. Both the on / off example we started with and this one simply count how many times you've touched the sensor, and change the LED state in response.
 
-Try the 'charge / discharge' and 'push to talk' examples similarly. Play with the value of `sdcutoff` to change how sensitive your capacitive textile is.
+### Acting over time
+
+The interactions we've seen so far have been instantaneous; what if we want a behavior that evolves or continues over time as the sensor is touched? Example number 2 is a simple example of this. Comment out the previous example, and uncomment out the `fraction_lightup` example for part 2. Once the code loads onto the microcontroller, try holding your hand on your touch sensor; the ring should fill up over a few seconds of interaction, and drain after removing your hand.
+
+This example works by keeping track of how many loops of the microcontroller code in a row the sensor has been activated for, and lights up a corresponding fraction of the LED ring.
+
+### Proximity sensing
+
+So far, all of our examples are activated by touching our sensor; capactive sensors can also be used for proximity sensing, with some simple modifications.
+
+1. Change the resistor in your circuit from the 100 kOhm to the 1 MOhm resistor. The resistance in a capacitive touch sensor multiplies the amount of time it takes to charge and discharge the sensor, which is what the software library is measuring and reacting to. By putting a larger resistor in the circuit, you magnify the otherwise small effect of moving your hand near the sensor. But be careful! You're also magnifying random noise from capacitance fluctiations, and slowing down how fast the overall circuit can react to changes.
+2. Find the line in the microcontroller code that looks like `int sdcutoff = 20;` and change it to `int sdcutoff = 2;`. This number controls how sensitive your signal processing is to changes; large values result in low sensitivity and low noise, while low values make the logic react to small changes.
+3. Send your modified code to your microcontroller agiain (rightward pointing arrow near the top right), and look at the serial monitor until it starts reporting reading again; they should be much larger than previously.
+4. Finally, move your hand slowly towards your sensor; you should be able to trigger your LED ring from an inch or so away.
 
 ## Leaving the computer behind
 
