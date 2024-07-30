@@ -9,8 +9,8 @@ Using some simple circuits, freely available arduino libraries, and a touch sens
 For this circuit, you'll need:
 
  - A teensy 2 (many, many other microcontollers will work just as well, but these instructions are written for the teensy 2).
- - a 100 kOhm resistor
- - a capacitive touch sensing foil, like a piece of textile teated with pyrrole, or even just a piece of tinfoil
+ - a 100 kOhm resistor, and a 1 MOhm resistor.
+ - a capacitive touch sensing foil, like a piece of textile teated with pyrrole, or even just a piece of tinfoil.
  - a ring of 16 neopixels (this is just for an example output; you can hook anything you want up to your capacitive touch sensing circuit).
  - a bunch of jumper wires
  - two double-sided alligator clips
