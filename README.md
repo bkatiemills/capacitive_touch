@@ -93,11 +93,10 @@ So far, all of our examples are activated by touching our sensor; capactive sens
 
 So far, everything we've done has relied on being plugged into your computer - but what if we want capacitive textiles in a project not tethered to the computer, like in an interactive art piece, installation or costume? We can run the whole setup on a battery, but there's some additional tricks that might come in handy.
 
-1. Take your battery holder and insert the provided batteries; there's an indicator inside the battey holder showing which way around to put the batteries.
-2. Get a digital multimeter and use it to determine which of the wires coming out of the battery holder is the positive lead; your instructor will help you. Do not skip this step and do not guess if you're unsure; these *must* be the right way around before plugging in your microcontroller!
-3. Insert the negative lead (white wire in the diagram) into the same row in the breadboard that has the white wire from the LEDs and microcontroller. 
-4. Insert the positive lead (red wire in the diagram) into the same row in the breadboard that has the red wire from the LEDs and microcontroller.
-5. Finally, attach a grounding wire to the ground rail on your breadboard (the row with all the ground wires, white in the diagram).
+1. Take the tape off your battery holder and turn it on.
+2. Insert the negative lead (black) into the same row in the breadboard that has the black wire from the LEDs and microcontroller - your ground rail. 
+4. Insert the positive lead (red) into the same row in the breadboard that has the red wire from the LEDs and microcontroller - your high voltage rail.
+5. Finally, attach a grounding wire to the ground rail on your breadboard.
 
 When complete, your circuit should look like this:
 
